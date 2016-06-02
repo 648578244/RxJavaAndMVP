@@ -13,7 +13,6 @@ import com.idea.l.rxjavaandmvp.presenter.UserPresenter;
 public class LoginActivity extends BaseActivity {
     private TextView tvShow;
     public UserPresenter mUserPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
