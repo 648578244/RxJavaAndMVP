@@ -1,7 +1,5 @@
 package com.idea.l.rxjavaandmvp.utils;
 
-import android.content.Context;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -17,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitUtils {
     private static Retrofit singleton;
-    public static <T> T createApi(Context context, Class<T> clazz){
+    public static <T> T createApi(Class<T> clazz){
         if(singleton == null){
             synchronized (RetrofitUtils.class){
                 if (singleton == null){
