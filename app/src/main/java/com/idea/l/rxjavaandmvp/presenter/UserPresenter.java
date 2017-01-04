@@ -1,6 +1,7 @@
 package com.idea.l.rxjavaandmvp.presenter;
 
 
+import com.idea.l.rxjavaandmvp.bean.Course;
 import com.idea.l.rxjavaandmvp.bean.UserBean;
 import com.idea.l.rxjavaandmvp.view.IUserView;
 
@@ -17,9 +18,9 @@ public class UserPresenter extends BasePresenter<IUserView> {
     }
     public void getUser() {
         getMvpView().showProgressDialog();
-        userModel.getUsers("2").subscribeOn(Schedulers.io())//在非UI县城中执行getUser
+        userModel.getUsers("111111").subscribeOn(Schedulers.io())//在非UI县城中执行getUser
                 .observeOn(AndroidSchedulers.mainThread())//在UI线程中执行结果
-                .subscribe(new Subscriber<UserBean>() {
+                .subscribe(new Subscriber<Course>() {
 
                     @Override
                     public void onCompleted() {
@@ -33,7 +34,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
                     }
 
                     @Override
-                    public void onNext(UserBean user) {
+                    public void onNext(Course user) {
                         getMvpView().updateView(user);
                     }
                 });

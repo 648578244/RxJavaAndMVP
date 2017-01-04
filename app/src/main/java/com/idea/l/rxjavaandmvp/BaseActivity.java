@@ -2,6 +2,7 @@ package com.idea.l.rxjavaandmvp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -16,6 +17,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IUserVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//强制为竖屏
+
         context = this;
         mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setMessage("正在加载，请稍候..");
