@@ -2,7 +2,6 @@ package com.idea.l.rxjavaandmvp.presenter;
 
 
 import com.idea.l.rxjavaandmvp.bean.Course;
-import com.idea.l.rxjavaandmvp.bean.UserBean;
 import com.idea.l.rxjavaandmvp.view.IUserView;
 
 import rx.Subscriber;
@@ -29,7 +28,6 @@ public class UserPresenter extends BasePresenter<IUserView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        getMvpView().showError(e.getMessage());
                         getMvpView().hidProgressDialog();
                     }
 

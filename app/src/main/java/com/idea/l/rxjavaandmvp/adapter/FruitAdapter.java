@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.idea.l.rxjavaandmvp.R;
 import com.idea.l.rxjavaandmvp.bean.Chapter;
-import com.idea.l.rxjavaandmvp.bean.Fruit;
 
 import java.util.List;
 

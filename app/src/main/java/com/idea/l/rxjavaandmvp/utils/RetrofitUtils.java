@@ -1,6 +1,5 @@
 package com.idea.l.rxjavaandmvp.utils;
 
-import android.util.Log;
 
 import com.idea.l.rxjavaandmvp.BuildConfig;
 
@@ -21,14 +20,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitUtils {
     private static final int DEFAULT_TIMEOUT = 5;
     private static Retrofit singleton;
-    public static <T> T createApi(Class<T> clazz){
-        if(singleton == null){
-            synchronized (RetrofitUtils.class){
-                if (singleton == null){
+
+    public static <T> T createApi(Class<T> clazz) {
+        if (singleton == null) {
+            synchronized (RetrofitUtils.class) {
+                if (singleton == null) {
                     OkHttpClient.Builder client = new OkHttpClient.Builder();
-                    client.addInterceptor(createHeaderInterceptor());
-                    client.addInterceptor(createLoggingInterceptor());
-                    client.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);//设置超时时间
+                    client.addNetworkInterceptor(createHeaderInterceptor())
+                            .addInterceptor(createLoggingInterceptor())
+                            .addInterceptor(createRetryInterceptor())
+                            .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);//设置超时时间
 
                     Retrofit.Builder builder = new Retrofit.Builder();
                     builder.baseUrl(BuildConfig.API_SERVER_URL)
@@ -43,13 +44,49 @@ public class RetrofitUtils {
     }
 
 
+    private static Interceptor createRetryInterceptor() {
+        Interceptor interceptor = new Interceptor() {
+            private final int MAX_RETRY_COUNT = 3;
 
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+
+                Request request = chain.request();
+                Response response = null;
+                if (!request.method().equals("POST")) {//GET 请求的话发起重连
+                    int retryCount = 0;
+                    response = doProceed(chain, request);
+                    while (response == null && retryCount < MAX_RETRY_COUNT) {
+                        retryCount++;
+                        response = doProceed(chain, request);
+                    }
+                }
+                if (response == null) {
+                    response = chain.proceed(request);
+                }
+                return response;
+            }
+        };
+
+        return interceptor;
+    }
+
+    private static Response doProceed(Interceptor.Chain chain, Request request) {
+        Response response = null;
+        try {
+            response = chain.proceed(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
 
     private static HttpLogInterceptor createLoggingInterceptor() {
         HttpLogInterceptor httpLoggingInterceptor = new HttpLogInterceptor();
         httpLoggingInterceptor.setLevel(HttpLogInterceptor.Level.BASIC);
         return httpLoggingInterceptor;
     }
+
     private static Interceptor createHeaderInterceptor() {
         Interceptor interceptor = new Interceptor() {
             @Override

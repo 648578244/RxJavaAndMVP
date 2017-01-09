@@ -5,11 +5,12 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.KeyEvent;
 
-import com.idea.l.rxjavaandmvp.view.IUserView;
+import com.idea.l.rxjavaandmvp.fragment.BaseFragment;
+import com.idea.l.rxjavaandmvp.view.BaseView;
 
-public abstract class BaseActivity extends AppCompatActivity implements IUserView {
+public abstract class BaseActivity extends AppCompatActivity implements BaseView {
     private Context context;
 
     private ProgressDialog mProgressDialog;
@@ -24,6 +25,53 @@ public abstract class BaseActivity extends AppCompatActivity implements IUserVie
         mProgressDialog.setMessage("正在加载，请稍候..");
     }
 
+    public void addFragment(BaseFragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(getFragmentContentId(), fragment, fragment.getClass().getSimpleName())
+                    .addToBackStack(fragment.getClass().getSimpleName())
+                    .commitAllowingStateLoss();
+        }
+    }
+
+    public void addFragmentWithAmin(BaseFragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(
+                            R.anim.slide_in_from_right,
+                            R.anim.slide_out_to_left,
+                            R.anim.slide_in_from_left,
+                            R.anim.slide_out_to_right)
+                    .replace(getFragmentContentId(), fragment, fragment.getClass().getSimpleName())
+                    .addToBackStack(fragment.getClass().getSimpleName())
+                    .commitAllowingStateLoss();
+        }
+    }
+
+    //移除fragment
+    public void removeFragment() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (KeyEvent.KEYCODE_BACK == keyCode) {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                finish();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    //布局中Fragment的ID
+    protected abstract int getFragmentContentId();
+
+
     @Override
     public void showProgressDialog() {
         mProgressDialog.show();
@@ -34,8 +82,4 @@ public abstract class BaseActivity extends AppCompatActivity implements IUserVie
         mProgressDialog.hide();
     }
 
-    @Override
-    public void showError(String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-    }
 }
