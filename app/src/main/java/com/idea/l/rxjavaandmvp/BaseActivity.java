@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.idea.l.rxjavaandmvp.fragment.BaseFragment;
-import com.idea.l.rxjavaandmvp.view.BaseView;
+import com.idea.l.rxjavaandmvp.view.IBaseView;
 
-public abstract class BaseActivity extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseView {
     private Context context;
 
     private ProgressDialog mProgressDialog;

@@ -34,9 +34,9 @@ public class MainFragment extends BaseFragment {
         mBinding.mainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mActivity, MainActivity.class);
-//                startActivity(intent);
-                addFragmentWithAmin(FoundFragment.newInstance());
+                Intent intent = new Intent(mActivity, MainActivity.class);
+                startActivity(intent);
+//                addFragmentWithAmin(FoundFragment.newInstance());
             }
         });
     }

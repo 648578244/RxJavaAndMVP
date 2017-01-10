@@ -2,6 +2,7 @@ package com.idea.l.rxjavaandmvp.model;
 
 import com.idea.l.rxjavaandmvp.bean.Course;
 import com.idea.l.rxjavaandmvp.bean.UserBean;
+import com.idea.l.rxjavaandmvp.presenter.BaseObjectObserver;
 
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -15,5 +16,5 @@ import rx.Observable;
  */
 public interface UserModel {
     @GET("/courses/{courseId}")
-    Observable<Course> getUsers(@Path("courseId") String type);
+    Observable<BaseObjectBean<Course>> getUsers(@Path("courseId") String type);
 }

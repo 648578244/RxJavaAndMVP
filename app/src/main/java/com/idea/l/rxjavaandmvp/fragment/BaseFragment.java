@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.idea.l.rxjavaandmvp.BaseActivity;
-import com.idea.l.rxjavaandmvp.view.BaseView;
+import com.idea.l.rxjavaandmvp.view.IBaseView;
 
 /**
  * Describe:
  * User: 月月鸟
  * Date: 2017-01-09
  */
-public abstract class BaseFragment extends DialogFragment implements BaseView {
+public abstract class BaseFragment extends DialogFragment implements IBaseView {
     protected BaseActivity mActivity;
     @Override
     public void onAttach(Context context) {

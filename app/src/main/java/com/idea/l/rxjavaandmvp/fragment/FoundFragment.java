@@ -19,6 +19,7 @@ import com.idea.l.rxjavaandmvp.adapter.FruitAdapter;
 import com.idea.l.rxjavaandmvp.bean.Chapter;
 import com.idea.l.rxjavaandmvp.bean.Course;
 import com.idea.l.rxjavaandmvp.databinding.FragmentFoundBinding;
+import com.idea.l.rxjavaandmvp.presenter.IUserPresenter;
 import com.idea.l.rxjavaandmvp.presenter.UserPresenter;
 import com.idea.l.rxjavaandmvp.view.IUserView;
 
@@ -35,7 +36,7 @@ public class FoundFragment extends BaseFragment implements IUserView {
     private List<Chapter> fruitList = new ArrayList<>();
     private FruitAdapter adapter;
 
-    public UserPresenter mUserPresenter;
+    public IUserPresenter mUserPresenter;
     public static BaseFragment newInstance() {
         return new FoundFragment();
     }

@@ -19,8 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.design.widget.CoordinatorLayout
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:orientation="vertical"
                 android:layout_height="match_parent">
 
                 <android.support.design.widget.AppBarLayout
@@ -40,18 +41,14 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="50dip"
-                    android:layout_marginTop="?attr/actionBarSize" />
+                    android:layout_height="0dip"
+                    android:layout_weight="1"
+                    android:layout_gravity="bottom"/>
 
                 <RadioGroup
                     android:id="@+id/rg_ContentTab"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom"
-                    android:background="#ffffff"
                     android:orientation="horizontal"
                     android:paddingTop="3dip">
 
@@ -88,7 +85,7 @@
                         android:scaleY="0.9"
                         android:text="我的" />
                 </RadioGroup>
-            </android.support.design.widget.CoordinatorLayout>
+            </LinearLayout>
 
             <android.support.design.widget.NavigationView
                 android:id="@+id/nav_view"

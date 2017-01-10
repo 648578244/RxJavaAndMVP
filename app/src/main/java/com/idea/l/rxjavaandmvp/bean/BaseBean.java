@@ -4,14 +4,15 @@ package com.idea.l.rxjavaandmvp.bean;
  * Created by l on 2016/6/2.
  */
 public class BaseBean {
-    private String r;
+    private int r;
     private String msg;
     private int total;
-    public String getR() {
+
+    public int getR() {
         return r;
     }
 
-    public void setR(String r) {
+    public void setR(int r) {
         this.r = r;
     }
 

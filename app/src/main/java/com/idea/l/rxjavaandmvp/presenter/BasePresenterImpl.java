@@ -2,19 +2,19 @@ package com.idea.l.rxjavaandmvp.presenter;
 
 import com.idea.l.rxjavaandmvp.model.UserModel;
 import com.idea.l.rxjavaandmvp.utils.RetrofitUtils;
-import com.idea.l.rxjavaandmvp.view.BaseView;
+import com.idea.l.rxjavaandmvp.view.IBaseView;
 import java.util.ArrayList;
 
 import rx.Subscription;
 /**
  * Created by l on 2016/6/1.
  */
-public class BasePresenter<T extends BaseView> implements Presenter<T> {
+public class BasePresenterImpl<T extends IBaseView> implements IBasePresenter<T> {
     private T mBaseView;
     protected UserModel userModel;
     protected ArrayList<Subscription> mSubscriptionList;
 
-    public BasePresenter() {
+    public BasePresenterImpl() {
         userModel = RetrofitUtils.createApi(UserModel.class);
         mSubscriptionList = new ArrayList<>();
     }
@@ -51,8 +51,8 @@ public class BasePresenter<T extends BaseView> implements Presenter<T> {
 
     public static class MvpViewNotAttachedException extends RuntimeException {
         public MvpViewNotAttachedException() {
-            super("Please call Presenter.attachView(MvpView) before" +
-                    " requesting data to the Presenter");
+            super("Please call IBasePresenter.attachView(MvpView) before" +
+                    " requesting data to the IBasePresenter");
         }
     }
 }
