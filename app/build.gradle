@@ -9,15 +9,20 @@ android {
         minSdkVersion 10
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
     }
     dataBinding {
         enabled = true
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "release"]
+
+            buildConfigField "String", "API_SERVER_URL", "\"http://192.168.31.164:8080/\""
+
 
         }
         debug{
@@ -26,6 +31,17 @@ android {
             buildConfigField "String", "API_SERVER_URL", "\"http://192.168.31.164:8080/\""
 
         }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def appName = 'mvp'
+            def oldFile = output.outputFile
+            def releaseApkName
+
+            releaseApkName = appName + '_' + variant.buildType.name + '_' + "v${defaultConfig.versionName}" + '_'+'.apk'
+            output.outputFile = new File(oldFile.parent, releaseApkName)
+        }
+
     }
 }
 
@@ -53,5 +69,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    compile 'com.alipay.euler:andfix:0.4.0@aar'
 
 }
