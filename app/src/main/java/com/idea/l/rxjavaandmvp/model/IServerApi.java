@@ -14,7 +14,7 @@ import rx.Observable;
 /**
  * Created by l on 2016/6/1.
  */
-public interface UserModel {
+public interface IServerApi {
     @GET("/courses/{courseId}")
     Observable<BaseObjectBean<Course>> getUsers(@Path("courseId") String type);
 }

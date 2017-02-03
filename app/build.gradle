@@ -9,7 +9,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 24
         versionCode 1
-        versionName "1.1"
+        versionName "1.0"
     }
     dataBinding {
         enabled = true
@@ -25,10 +25,10 @@ android {
 
 
         }
-        debug{
+        debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "debug"]
-            buildConfigField "String", "API_SERVER_URL", "\"http://192.168.31.164:8080/\""
+            buildConfigField "String", "API_SERVER_URL", "\"http://192.168.13.89:8080/\""
 
         }
     }
@@ -38,10 +38,15 @@ android {
             def oldFile = output.outputFile
             def releaseApkName
 
-            releaseApkName = appName + '_' + variant.buildType.name + '_' + "v${defaultConfig.versionName}" + '_'+'.apk'
+            releaseApkName = appName + '_' + variant.buildType.name + '_' + "v${defaultConfig.versionName}" + '_' + getDate() + '.apk'
             output.outputFile = new File(oldFile.parent, releaseApkName)
         }
 
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 
@@ -52,6 +57,9 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
+    androidTestCompile 'org.robolectric:robolectric:2.4'
+    testCompile "org.mockito:mockito-core:1.+"
+
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.google.code.gson:gson:2.4'
@@ -70,6 +78,12 @@ dependencies {
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
-    compile 'com.alipay.euler:andfix:0.4.0@aar'
+    compile 'com.alipay.euler:andfix:0.5.0@aar'
 
+}
+//获取时间戳
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd hh:mm:ss')
+    return formattedDate
 }

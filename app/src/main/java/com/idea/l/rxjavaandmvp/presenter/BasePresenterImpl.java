@@ -1,21 +1,22 @@
 package com.idea.l.rxjavaandmvp.presenter;
 
-import com.idea.l.rxjavaandmvp.model.UserModel;
-import com.idea.l.rxjavaandmvp.utils.RetrofitUtils;
+import com.idea.l.rxjavaandmvp.model.GetDataManager;
 import com.idea.l.rxjavaandmvp.view.IBaseView;
+
 import java.util.ArrayList;
 
 import rx.Subscription;
+
 /**
  * Created by l on 2016/6/1.
  */
 public class BasePresenterImpl<T extends IBaseView> implements IBasePresenter<T> {
     private T mBaseView;
-    protected UserModel userModel;
     protected ArrayList<Subscription> mSubscriptionList;
+    public GetDataManager manager;
 
     public BasePresenterImpl() {
-        userModel = RetrofitUtils.createApi(UserModel.class);
+        manager = GetDataManager.getInit();
         mSubscriptionList = new ArrayList<>();
     }
 
@@ -41,7 +42,7 @@ public class BasePresenterImpl<T extends IBaseView> implements IBasePresenter<T>
         return mBaseView != null;
     }
 
-    public T getMvpView() {
+    public T getView() {
         return mBaseView;
     }
 

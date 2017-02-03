@@ -4,7 +4,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.idea.l.rxjavaandmvp.MainActivity;
 import com.idea.l.rxjavaandmvp.R;
 import com.idea.l.rxjavaandmvp.adapter.FruitAdapter;
 import com.idea.l.rxjavaandmvp.bean.Chapter;
 import com.idea.l.rxjavaandmvp.bean.Course;
+import com.idea.l.rxjavaandmvp.contract.GetUserContract;
 import com.idea.l.rxjavaandmvp.databinding.FragmentFoundBinding;
-import com.idea.l.rxjavaandmvp.presenter.IUserPresenter;
-import com.idea.l.rxjavaandmvp.presenter.UserPresenter;
-import com.idea.l.rxjavaandmvp.view.IUserView;
+import com.idea.l.rxjavaandmvp.presenter.UserPresenterImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +28,12 @@ import java.util.List;
  * User: 月月鸟
  * Date: 2017-01-09
  */
-public class FoundFragment extends BaseFragment implements IUserView {
+public class FoundFragment extends BaseFragment implements GetUserContract.IUserView {
     private FragmentFoundBinding mBinding;
     private List<Chapter> fruitList = new ArrayList<>();
     private FruitAdapter adapter;
 
-    public IUserPresenter mUserPresenter;
+    public GetUserContract.IUserPresenter mUserPresenter;
     public static BaseFragment newInstance() {
         return new FoundFragment();
     }
@@ -49,8 +46,8 @@ public class FoundFragment extends BaseFragment implements IUserView {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mUserPresenter = new UserPresenter(this);
-        mUserPresenter.getUser();
+        mUserPresenter = new UserPresenterImpl(this);
+        mUserPresenter.fetchData("12345678");
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         mBinding.recyclerView.setLayoutManager(layoutManager);
         adapter = new FruitAdapter(fruitList);
@@ -135,7 +132,7 @@ public class FoundFragment extends BaseFragment implements IUserView {
                         FoundFragment.this.getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mUserPresenter.getUser();
+                                mUserPresenter.fetchData("34567");
                                 adapter.notifyDataSetChanged();
                                 mBinding.swipeRefresh.setRefreshing(false);
                             }
@@ -152,5 +149,6 @@ public class FoundFragment extends BaseFragment implements IUserView {
         fruitList.addAll(user.getChapterList());
         adapter.notifyDataSetChanged();
     }
+
 
 }
